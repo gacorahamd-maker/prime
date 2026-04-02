@@ -312,7 +312,7 @@
                 Lanjutkan ke Pembayaran
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </button>
-            <button class="btn btn-ghost">Batalkan Transaksi</button>
+            <button class="btn btn-ghost" id="cancel-btn">Batalkan Transaksi</button>
         </div>
 
         <!-- STEP 2: Halaman QRIS -->
@@ -411,11 +411,11 @@
         btn.style.pointerEvents = "none";
 
         setTimeout(() => {
-            // Ambil data terbaru
+            // Ambil data terbaru dari DOM untuk memastikan ID unik yang ditampilkan di ringkasan tetap konsisten
             const currentUniqueID = document.getElementById('order-id').innerText;
             const currentProduct = document.getElementById('product-name').innerText;
             
-            // Buat pesan WhatsApp
+            // Buat pesan WhatsApp dengan ID Unik yang sama persis dengan yang terlihat di halaman
             const message = `Halo Admin, Saya sedang melakukan verifikasi untuk transaksi. 
 ID unik : ${currentUniqueID}
 Produk : ${currentProduct}`;
@@ -427,7 +427,7 @@ Produk : ${currentProduct}`;
             // Tampilkan alert
             alert("Pastikan Anda telah melakukan transfer ke merchant RIRISTOREE melalui aplikasi pembayaran Anda untuk melakukan verifikasi.");
             
-            // ***** SETELAH ALERT DITUTUP, HILANGKAN TOTAL HALAMAN PERTAMA *****
+            // SETELAH ALERT DITUTUP, HILANGKAN TOTAL HALAMAN PERTAMA
             closeStep1();
             
             // Arahkan ke WhatsApp dengan pesan otomatis
@@ -438,6 +438,14 @@ Produk : ${currentProduct}`;
             btn.style.opacity = "1";
             btn.style.pointerEvents = "auto";
         }, 2500);
+    }
+
+    // Event handler untuk tombol batalkan transaksi -> arahkan ke https://filesensi.vercel.app/
+    const cancelButton = document.getElementById('cancel-btn');
+    if (cancelButton) {
+        cancelButton.addEventListener('click', function(e) {
+            window.location.href = 'https://filesensi.vercel.app/';
+        });
     }
 </script>
 
