@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran Aman | RIRISTOREE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --success: #059669;
+            --warning: #d97706;
+            --warning-bg: #fef3c7;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-body: #f1f5f9;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.04), 0 8px 10px -6px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-wrapper {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 32px;
+        }
+
+        .step-dot {
+            height: 4px;
+            flex: 1;
+            background: var(--border);
+            border-radius: 10px;
+            transition: all 0.4s ease;
+        }
+
+        .step-dot.active {
+            background: var(--primary);
+        }
+
+        .header {
+            margin-bottom: 28px;
+        }
+
+        .merchant-tag {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .info-list {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 8px 20px;
+            margin-bottom: 24px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .info-item:last-child { border-bottom: none; }
+
+        .info-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .status-warning {
+            background-color: var(--warning-bg);
+            padding: 4px 12px;
+            border-radius: 30px;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--warning);
+        }
+
+        .price-box {
+            text-align: center;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .price-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        .price-value {
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -1px;
+        }
+
+        .qris-container {
+            text-align: center;
+            padding: 24px 16px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .qris-merchant-name {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+            display: block;
+        }
+
+        .qris-image {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+            margin: 0 auto;
+        }
+
+        .instruction {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .instruction-text {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-main);
+            line-height: 1.5;
+            letter-spacing: 0.2px;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .instruction-text .highlight {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-main {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+        }
+
+        .btn-main:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+
+        .btn-ghost:hover {
+            color: var(--text-main);
+            background: #f8fafc;
+        }
+
+        /* Halaman pertama disembunyikan total */
+        .step1-hidden {
+            display: none !important;
+        }
+
+        .hidden { display: none; }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        
+        <!-- STEP 1: Ringkasan Pesanan -->
+        <div id="step-1" class="fade-in">
+            <div class="step-wrapper">
+                <div class="step-dot active"></div>
+                <div class="step-dot"></div>
+            </div>
+
+            <div class="header">
+                <span class="merchant-tag">FILESENSI OFFICIAL</span>
+                <h1 class="page-title">Ringkasan Pesanan</h1>
+            </div>
+
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="info-label">Produk</span>
+                    <span class="info-value" id="product-name">FILESENSI BASIC</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">ID Unik</span>
+                    <span class="info-value" id="order-id">Menciptakan...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Metode</span>
+                    <span class="info-value">QRIS</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Status</span>
+                    <span class="info-value">
+                        <span class="status-warning">Menunggu</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="price-box">
+                <div class="price-label">Total Pembayaran</div>
+                <div class="price-value">IDR 79.900</div>
+            </div>
+
+            <button class="btn btn-main" onclick="goToStep(2)">
+                Lanjutkan ke Pembayaran
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+            <button class="btn btn-ghost">Batalkan Transaksi</button>
+        </div>
+
+        <!-- STEP 2: Halaman QRIS -->
+        <div id="step-2" class="hidden fade-in">
+            <div class="step-wrapper">
+                <div class="step-dot active"></div>
+                <div class="step-dot active"></div>
+            </div>
+
+            <div class="header" style="text-align: center;">
+                <span class="merchant-tag">Pindai & Bayar</span>
+                <h1 class="page-title">QRIS Payment</h1>
+            </div>
+
+            <div class="qris-container">
+                <span class="qris-merchant-name">RIRISTOREE</span>
+                <img src="https://cvqris-ariepulsa.my.id/assets/qrisapi/qris_5167160f1d53fea8eb68fd984a9598fa.png" class="qris-image" alt="QRIS Code">
+                
+                <div class="instruction">
+                    <div class="instruction-text">
+                        Silakan buka aplikasi <span class="highlight">e-wallet</span> Anda,<br>
+                        pilih menu <span class="highlight">'Bayar'</span>, kemudian lakukan<br>
+                        pemindaian QR Code untuk melanjutkan transaksi.
+                    </div>
+                </div>
+            </div>
+
+            <div class="price-box" style="padding-top: 0; margin-bottom: 16px;">
+                <div class="price-label">Total Tagihan</div>
+                <div class="price-value" style="font-size: 28px;">IDR 79.900</div>
+            </div>
+
+            <button class="btn btn-main" id="verify-btn" onclick="verifyPayment()">
+                Verifikasi Pembayaran
+            </button>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    // Variabel global untuk menyimpan ID Unik dan Nama Produk
+    let uniqueID = "";
+    let productName = "";
+
+    // Generate Random ID Unik dengan prefix "FS"
+    function generateUniqueID() {
+        const prefix = "FS";
+        const num = Math.floor(100000 + Math.random() * 900000);
+        return `${prefix}-${num}`;
+    }
+
+    // Ambil nama produk dari DOM
+    function getProductName() {
+        return document.getElementById('product-name').innerText;
+    }
+
+    // Set ID Unik saat halaman pertama kali dimuat
+    function initializeTransaction() {
+        uniqueID = generateUniqueID();
+        productName = getProductName();
+        document.getElementById('order-id').innerText = uniqueID;
+    }
+
+    // Panggil inisialisasi
+    initializeTransaction();
+
+    // Navigation logic
+    function goToStep(step) {
+        const s1 = document.getElementById('step-1');
+        const s2 = document.getElementById('step-2');
+        
+        if(step === 2) {
+            s1.classList.add('hidden');
+            s2.classList.remove('hidden');
+        } else {
+            s2.classList.add('hidden');
+            s1.classList.remove('hidden');
+        }
+    }
+
+    // Fungsi untuk menutup total halaman pertama (Ringkasan Pesanan)
+    function closeStep1() {
+        const step1 = document.getElementById('step-1');
+        step1.classList.add('step1-hidden');
+    }
+
+    // Payment Verification Logic dengan WhatsApp redirect + pesan otomatis
+    // Setelah alert ditutup, halaman pertama akan hilang total
+    function verifyPayment() {
+        const btn = document.getElementById('verify-btn');
+        const originalContent = btn.innerHTML;
+        
+        btn.innerHTML = '<div class="spinner"></div> Menghubungkan...';
+        btn.style.opacity = "0.8";
+        btn.style.pointerEvents = "none";
+
+        setTimeout(() => {
+            // Ambil data terbaru
+            const currentUniqueID = document.getElementById('order-id').innerText;
+            const currentProduct = document.getElementById('product-name').innerText;
+            
+            // Buat pesan WhatsApp
+            const message = `Halo Admin, Saya sedang melakukan verifikasi untuk transaksi. 
+ID unik : ${currentUniqueID}
+Produk : ${currentProduct}`;
+            
+            // Encode pesan untuk URL
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappURL = `https://wa.me/6283184036396?text=${encodedMessage}`;
+            
+            // Tampilkan alert
+            alert("Pastikan Anda telah melakukan transfer ke merchant RIRISTOREE melalui aplikasi pembayaran Anda untuk melakukan verifikasi.");
+            
+            // ***** SETELAH ALERT DITUTUP, HILANGKAN TOTAL HALAMAN PERTAMA *****
+            closeStep1();
+            
+            // Arahkan ke WhatsApp dengan pesan otomatis
+            window.location.href = whatsappURL;
+            
+            // Reset button
+            btn.innerHTML = originalContent;
+            btn.style.opacity = "1";
+            btn.style.pointerEvents = "auto";
+        }, 2500);
+    }
+</script>
+
+</body>
+</html>
