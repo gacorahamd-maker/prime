@@ -1,2 +1,1 @@
-# repooogww
-1
+# prime
